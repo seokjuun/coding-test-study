@@ -44,14 +44,14 @@ public class Main {
     }
 
     static void makeSet(){
-        for (int i = 0; i < V; i++) {
+        for (int i = 0; i <= V; i++) {
             parent[i] = i;
         }
     }
 
     static int findSet(int i){
         if(parent[i] == i) return i;
-        return i = findSet(parent[i]);
+        return parent[i] = findSet(parent[i]);
     }
 
     static boolean union(int x, int y){
