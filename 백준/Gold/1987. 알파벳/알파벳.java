@@ -1,7 +1,5 @@
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-
 import java.util.StringTokenizer;
 
 public class Main {
@@ -29,9 +27,8 @@ public class Main {
     }
 
     static void dfs(int y, int x, int count){
-        if (count > max) {
-            max = count;
-        }
+        max = Math.max(max, count);
+        
         //
         for (int i = 0; i < 4; i++) {
             int ny = y + dy[i];
