@@ -42,12 +42,16 @@ public class Main {
             }
         }
         // 대각
-        if (x + 1 < N && y + 1 < N) { // 범위 확인 먼저
-            if (map[y][x + 1] == 0 && map[y + 1][x] == 0 && map[y + 1][x + 1] == 0) {
+        if (x + 1 < N && y + 1 < N) {
+            if (canmove(y, x)) {
                 dfs(y + 1, x + 1, 2);
             }
         }
 
     }
 
+    //대각 검사
+    static  boolean canmove(int y, int x){
+        return map[y][x + 1] == 0 && map[y + 1][x] == 0 && map[y + 1][x + 1] == 0;
+    }
 }
