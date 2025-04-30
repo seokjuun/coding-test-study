@@ -1,55 +1,51 @@
 
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int[][] paper;
-    static int minusOne = 0;
-    static int zero = 0;
-    static int one = 0;
+    static int[] count = new int[3];
+    static int[][] map;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        paper = new int[N][N];
+        map = new int[N][N];
+        StringTokenizer st;
 
         for (int i = 0; i < N; i++) {
-            StringTokenizer st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                paper[i][j] = Integer.parseInt(st.nextToken());
+                map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
 
-        countPaper(0, 0, N);
+        countPaper(N,0,0);
 
-        System.out.println(minusOne);
-        System.out.println(zero);
-        System.out.println(one);
+        System.out.println(count[0]);
+        System.out.println(count[1]);
+        System.out.println(count[2]);
     }
 
-    static void countPaper(int y, int x, int size) {
-        if (isSameNumber(y, x, size)) {
-            int num = paper[y][x];
-            if (num == -1) minusOne++;
-            else if (num == 0) zero++;
-            else one++;
+    static void countPaper(int len, int y, int x){
+        if (isSquare(len, y, x)){
+            count[map[y][x]+1]++;
             return;
         }
 
-        int newSize = size / 3;
-        for (int dy = 0; dy < 3; dy++) {
-            for (int dx = 0; dx < 3; dx++) {
-                countPaper(y + dy * newSize, x + dx * newSize, newSize);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                countPaper(len/3, y + i*(len/3), x+ j*(len/3));
             }
         }
     }
 
-    static boolean isSameNumber(int y, int x, int size) {
-        int num = paper[y][x];
-        for (int i = y; i < y + size; i++) {
-            for (int j = x; j < x + size; j++) {
-                if (paper[i][j] != num) return false;
+    static boolean isSquare(int len, int y, int x){
+        int num = map[y][x];
+        for (int i = y; i < y+len; i++) {
+            for (int j = x; j < x+len; j++) {
+                if(map[i][j] != num) return false;
             }
         }
         return true;
