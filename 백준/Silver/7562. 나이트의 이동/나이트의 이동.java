@@ -6,62 +6,62 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int I, goalY, goalX;
+    static int N,I,goalY,goalX;
     static boolean[][] visited;
-    static int[] dy = {-2, -2, 2, 2, -1, 1, -1, 1};
-    static int[] dx = {-1, 1, -1, 1, -2, -2, 2, 2};
+
+    static int[] dy = {-2,-2,2,2,-1,1,-1,1};
+    static int[] dx = {-1,1,-1,1,-2,-2,2,2};
+
 
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
 
-        int T = Integer.parseInt(br.readLine());
+        N = Integer.parseInt(br.readLine()); // 테스트 케이스 수
 
-        for (int t = 0; t < T; t++) {
-            I = Integer.parseInt(br.readLine());
-            visited = new boolean[I][I]; 
-
-            st = new StringTokenizer(br.readLine());
-            int startY = Integer.parseInt(st.nextToken());
-            int startX = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < N; i++) {
+            I = Integer.parseInt(br.readLine()); // 체스판 한 변의 길이
+            visited = new boolean[I][I]; // 체스판
 
             st = new StringTokenizer(br.readLine());
-            goalY = Integer.parseInt(st.nextToken());
+            int y = Integer.parseInt(st.nextToken()); // 현재
+            int x = Integer.parseInt(st.nextToken());
+
+            st = new StringTokenizer(br.readLine());
+            goalY = Integer.parseInt(st.nextToken()); // 목적지
             goalX = Integer.parseInt(st.nextToken());
 
-            System.out.println(bfs(startY, startX));
+            sb.append(bfs(y,x)).append("\n");
         }
+        System.out.println(sb);
     }
 
-    static int bfs(int y, int x) {
+    static int bfs(int y, int x){
         if (y == goalY && x == goalX) return 0;
 
-        Queue<int[]> queue = new ArrayDeque<>();
-        queue.offer(new int[]{y, x, 0});
         visited[y][x] = true;
+        Queue<int[]> queue = new ArrayDeque<>();
+        queue.offer(new int[]{y,x,0});
 
-        while (!queue.isEmpty()) {
-            int[] current = queue.poll();
-            int cy = current[0];
-            int cx = current[1];
-            int cnt = current[2];
+        while (!queue.isEmpty()){
+            int[] poll = queue.poll();
+            int count = poll[2];
 
             for (int i = 0; i < 8; i++) {
-                int ny = cy + dy[i];
-                int nx = cx + dx[i];
+                int my = poll[0] + dy[i];
+                int mx = poll[1] + dx[i];
 
-                if (isInBounds(ny, nx) && !visited[ny][nx]) {
-                    if (ny == goalY && nx == goalX) return cnt + 1; 
-                    visited[ny][nx] = true;
-                    queue.offer(new int[]{ny, nx, cnt + 1});
+                if (my >= 0 && my < I && mx >= 0 && mx < I && !visited[my][mx]){
+                    if(my == goalY && mx == goalX){
+                        return count+1;
+                    }
+
+                    visited[my][mx] = true;
+                    queue.offer(new int[]{my,mx,count+1});
                 }
             }
         }
-
-        return -1; 
-    }
-
-    static boolean isInBounds(int y, int x) {
-        return y >= 0 && y < I && x >= 0 && x < I;
+        return -1;
     }
 }
