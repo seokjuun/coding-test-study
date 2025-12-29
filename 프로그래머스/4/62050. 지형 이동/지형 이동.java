@@ -4,7 +4,7 @@ class Solution {
     
     static int n;
     static int[][] group;
-    static int[] dy = {-1,1,0,0}; // 하, 우
+    static int[] dy = {-1,1,0,0}; 
     static int[] dx = {0,0,-1,1};
     static int[] parent;
     
@@ -66,10 +66,13 @@ class Solution {
             parent[i] = i; 
         }
         
+        int line =0;
         for(Node node : list){
             // 유니온 파인드
             if(union(node.from, node.to)){
-                answer+= node.cost;    
+                answer+= node.cost;
+                line++;
+                if(line == gNum-1) break;
             }
             
         }
